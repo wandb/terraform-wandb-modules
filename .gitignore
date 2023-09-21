@@ -19,6 +19,4 @@
 **/terraform.tfstate
 **/terraform.tfstate.backup
 
-
-
 go.work
