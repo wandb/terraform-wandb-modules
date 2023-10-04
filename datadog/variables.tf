@@ -18,10 +18,10 @@ variable "site" {
   type     = string
 }
 
-# variable "k8s_cluster_ca_certificate" {
+#variable "k8s_cluster_ca_certificate" {
 #   nullable = false
 #   type     = string
-# }
+#}
 
 # variable "k8s_host" {
 #   nullable = false
