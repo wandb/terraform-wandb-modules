@@ -4,6 +4,7 @@ provider "helm" {
     host                   = var.k8s_host
     token                  = var.k8s_token
 
+
     #exec {
     #    api_version = "client.authentication.k8s.io/v1beta1"
     #    args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
