@@ -74,16 +74,18 @@ resource "helm_release" "datadog" {
     create_before_destroy = false
   }
 
+
   values = [templatefile("${path.module}/datadog-agent.tftpl",
     {
-      api_key            = "${var.api_key}"
-      app_key            = "${var.app_key}"
-      cloud_provider_tag = "${var.cloud_provider_tag}"
-      cluster_name       = "${var.cluster_name}"
-      database_tag       = "${var.database_tag}"
-      environment_tag    = "${var.environment_tag}"
-      namespace_tag      = "${var.namespace}"
-      objectstore_tag    = "${var.objectstore_tag}"
-      site               = "${var.site}"
+      api_key             = var.api_key
+      app_key             = var.app_key
+      cloud_provider_tag  = var.cloud_provider_tag
+      cluster_name        = var.cluster_name
+      database_tag        = var.database_tag
+      environment_tag     = var.environment_tag
+      namespace_tag       = var.namespace
+      node_labels_as_tags = "{${join(",", var.node_labels_as_tags)}}"
+      objectstore_tag     = var.objectstore_tag
+      site                = var.site
   })]
 }

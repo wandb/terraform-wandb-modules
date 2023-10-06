@@ -64,3 +64,9 @@ variable "namespace" {
   nullable    = false
   type        = string
 }
+
+variable "node_labels_as_tags" {
+  description = "Labels applied to nodes that we want rendered to tags."
+  nullable = true
+  type = list(string)
+}

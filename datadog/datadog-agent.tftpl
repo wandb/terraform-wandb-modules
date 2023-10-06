@@ -18,11 +18,11 @@ agents:
             logLevel: INFO
             resources:
                 limits:
-                    cpu: 800m
+                    cpu: 1000m
                     memory: 1024Mi
                 requests:
                     cpu: 200m
-                    memory: 256Mi
+                    memory: 128Mi
         initContainers:
             resources:
                 limits:
@@ -30,7 +30,7 @@ agents:
                     memory: 1024Mi
                 requests:
                     cpu: 200m
-                    memory: 256Mi
+                    memory: 128Mi
         processAgent:
             logLevel: INFO
             resources:
@@ -39,7 +39,7 @@ agents:
                     memory: 1024Mi
                 requests:
                     cpu: 200m
-                    memory: 256Mi
+                    memory: 128Mi
         systemProbe:
             logLevel: INFO
             resources:
@@ -48,7 +48,7 @@ agents:
                     memory: 1024Mi
                 requests:
                     cpu: 200m
-                    memory: 256Mi
+                    memory: 128Mi
             securityContext:
                 capabilities:
                     add:
@@ -66,11 +66,11 @@ agents:
             logLevel: INFO
             resources:
                 limits:
-                    cpu: 800m
+                    cpu: 1000m
                     memory: 1024Mi
                 requests:
                     cpu: 200m
-                    memory: 256Mi
+                    memory: 128Mi
     enabled: true
     nodeAgent:
         replicas: 1
@@ -90,11 +90,11 @@ agents:
         create: true
     resources:
         limits:
-            cpu: 800m
+            cpu: 1000m
             memory: 1024Mi
         requests:
             cpu: 200m
-            memory: 256Mi
+            memory: 128Mi
     traceAgent:
         env:
           - name: DD_APM_IGNORE_RESOURCES
@@ -148,7 +148,7 @@ clusterAgent:
             memory: 1024Mi
         requests:
             cpu: 200m
-            memory: 256Mi
+            memory: 128Mi
 
 #####
 clusterChecksRunner:
@@ -163,7 +163,7 @@ clusterChecksRunner:
             memory: 1024Mi
         requests:
             cpu: 200m
-            memory: 256Mi
+            memory: 128Mi
 
 #####
 clusterName: "${cluster_name}"           
@@ -192,9 +192,9 @@ datadog:
     collectEvents: true
     collectVpaMetrics: true
     containerExcludeLogs: "name:^aws$ name:^coredns$ name:^ebs$ name:^kube-proxy$"
-    containerIncludeLogs: "name:^wandb$"
+    #containerIncludeLogs: "name:^wandb$"
     containerExcludeMetrics: "name:^aws$ name:^coredns$ name:^ebs$ name:^kube-proxy$"
-    containerIncludeMetrics:  "name:^wandb$"
+    #containerIncludeMetrics:  "name:^wandb$"
     dogstatsd:
         nonLocalTraffic: true
         originDetection: true
@@ -263,8 +263,7 @@ datadog:
         enabled: true
     networkPolicy:
         create: true
-    nodeLabelsAsTags:
-        beta.kubernetes.io/instance-type: aws-instance-type
+    nodeLabelsAsTags: "${node_labels_as_tags}"
     orchestratorExplorer:
         enabled: true
     otlp:
