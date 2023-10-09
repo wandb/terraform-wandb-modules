@@ -191,9 +191,9 @@ datadog:
     collectCrdMetrics: true
     collectEvents: true
     collectVpaMetrics: true
-    containerExcludeLogs: "name:^aws$ name:^coredns$ name:^ebs$ name:^kube-proxy$"
+    #containerExcludeLogs: "name:^aws$ name:^coredns$ name:^ebs$ name:^kube-proxy$"
     #containerIncludeLogs: "name:^wandb$"
-    containerExcludeMetrics: "name:^aws$ name:^coredns$ name:^ebs$ name:^kube-proxy$"
+    #containerExcludeMetrics: "name:^aws$ name:^coredns$ name:^ebs$ name:^kube-proxy$"
     #containerIncludeMetrics:  "name:^wandb$"
     dogstatsd:
         nonLocalTraffic: true
