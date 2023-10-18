@@ -1,0 +1,93 @@
+namespaceOverride: "otel"
+clusterRole:
+    create: true
+config:
+    extensions:
+        health_check: {}
+        memory_ballast: {}
+        zpages: {}
+    receivers: ${file:receivers.yaml}    
+    processors:
+        batch:
+            send_batch_max_size: 1000
+            send_batch_size: 100
+            timeout: 10s
+        memory_limiter:
+            check_interval: 5s
+            limit_mib: 4000
+            spike_limit_mib: 500            
+        k8sattributes:
+          apiVersion: k8s
+          kind: K8sAttributes                         
+        probabilistic_sampler:
+          hash_seed: 22
+          sampling_percentage: 15          
+        resourcedetection:
+          detectors: [gce, ec2, az, env]               
+    exporters:
+        datadog:
+            api:
+                key: 
+                site: "datadoghq.com"
+        debug: {} 
+        logging: {}
+        otlp:
+          endpoint: otelcol.observability.svc.cluster.local:443        
+    service:
+        extensions:
+            - health_check
+            - zpages
+            - memory_ballast:
+                size_in_percentage: 40
+        pipelines:
+            logs:
+                receivers:
+                  - filelog
+                  - otlp
+                processors:
+                  - memory_limiter
+                  - batch    
+                exporters:
+                  - datadog                   
+            metrics:
+                receivers:
+                    - hostmetrics
+                    - prometheus
+                    - otlp
+                processors:
+                    - memory_limiter                
+                    - batch
+                exporters:
+                    - datadog
+            traces:
+                receivers:
+                    - jaeger
+                    - otlp
+                processors:
+                    - memory_limiter
+                    - batch
+                exporters:
+                    - datadog
+        telemetry:
+            metrics:
+                address: ${env:MY_POD_IP}:8888
+mode: daemonset
+ports:
+    metrics:
+        enabled: true
+presets:
+    hostMetrics:
+        enabled: true
+    kubeletMetrics:
+        enabled: true
+    kubernetesAttributes:
+        enabled: true
+        extractAllPodAnnotations: true
+        extractAllPodLabels: true
+    kubernetesEvents:
+        enabled: true
+    logsCollection:
+        enabled: true
+        includeCollectorLogs: false
+serviceMonitor:
+    enabled: true
